@@ -1,0 +1,8 @@
+# virtual environment
+.venv/*
+
+# zone identifier [WSL]
+*Zone.Identifier
+
+# personal files
+files/*

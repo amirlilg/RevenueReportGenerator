@@ -4,5 +4,6 @@
 # zone identifier [WSL]
 *Zone.Identifier
 
-# personal files
+# personal files and reports
 files/*
+reports/*

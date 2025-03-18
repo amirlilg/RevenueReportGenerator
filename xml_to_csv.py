@@ -29,6 +29,6 @@ def parse_sms_backup(xml_file, output_csv):
 
 # Example usage
 if __name__=="__main__":
-    xml_file_path = "files/sms-20250108183541.xml"
+    xml_file_path = "files/sms-20250209005520.xml"
     output_csv_path = xml_file_path[:-len("xml")] + "csv"
     parse_sms_backup(xml_file_path, output_csv_path)

@@ -1,5 +1,5 @@
 import pandas as pd
-import re
+import re, csv, os
 import matplotlib.pyplot as plt
 
 def parse_date_column(df: pd.DataFrame) -> pd.DataFrame:
@@ -67,7 +67,7 @@ def process_bank_data(df):
 
     return df_filtered, monthly_income, monthly_deposit_count
 
-def generate_report_plots(monthly_income, monthly_deposit_count):
+def generate_report_plots(monthly_income, monthly_deposit_count, csv_file_path):
     """Generates plots for monthly income and deposit counts."""
     plt.figure(figsize=(14, 6))
 
@@ -89,7 +89,9 @@ def generate_report_plots(monthly_income, monthly_deposit_count):
 
     plt.tight_layout()
     # plt.show()
-    plt.savefig('reports/report.png')
+    
+    path, filename = os.path.split(csv_file_path)
+    plt.savefig(f'reports/report_{filename}.png')
 
 def save_reports(monthly_income, monthly_deposit_count, filtered_df):
     """Saves reports to CSV files."""
@@ -98,9 +100,18 @@ def save_reports(monthly_income, monthly_deposit_count, filtered_df):
     filtered_df.to_csv('reports/filtered_deposit_data.csv', index=False)
 
 def generate_report(output_csv_path):
-    """Main function to generate the report."""
-    # Read the CSV file
-    df = pd.read_csv(output_csv_path)
+    # """Main function to generate the report."""
+    # # Debugging: Print the first few lines of the CSV file
+    # with open(output_csv_path, 'r', encoding='utf-8') as f:
+    #     for _ in range(5):
+    #         print(f.readline())
+    
+    # Read the CSV file with explicit delimiter and encoding
+    df = pd.read_csv(output_csv_path,
+                     delimiter=',',
+                     quotechar='"',
+                     quoting=csv.QUOTE_MINIMAL,
+                     encoding='utf-8')
 
     # Step 1: Parse dates
     df = parse_date_column(df)
@@ -109,7 +120,7 @@ def generate_report(output_csv_path):
     df_filtered, monthly_income, monthly_deposit_count = process_bank_data(df)
 
     # Step 3: Generate plots
-    generate_report_plots(monthly_income, monthly_deposit_count)
+    generate_report_plots(monthly_income, monthly_deposit_count, output_csv_path)
 
     # Step 4: Save reports
     save_reports(monthly_income, monthly_deposit_count, df_filtered)
@@ -119,7 +130,7 @@ def generate_report(output_csv_path):
     print(monthly_income)
     print("\nMonthly Deposit Count Summary:")
     print(monthly_deposit_count)
-
+    
 if __name__ == "__main__":
-    csv_file_path = "files/sms-20250108183541.csv"
+    csv_file_path = "files/sms-20250209005520.csv"
     generate_report(csv_file_path)

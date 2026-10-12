@@ -1,11 +1,11 @@
 function extractDepositAmountRefah(body) {
-  Logger.log("Extracting deposit amount from SMS body...");
+  // Logger.log("Extracting deposit amount from SMS body...");
   var match = body.match(/کارت([\d,]+)\+/);
   if (match) {
-    Logger.log("Deposit amount found: " + match[1]);
+    // Logger.log("Deposit amount found: " + match[1]);
     return parseInt(match[1].replace(/,/g, ''));
   }
-  Logger.log("No deposit amount found in this SMS.");
+  // Logger.log("No deposit amount found in this SMS.");
   return null;
 }
 
@@ -17,7 +17,7 @@ function processBankData(data) {
   
   data.forEach(function(row) {
     var depositAmount = extractDepositAmountRefah(row[5]);
-    if (depositAmount !== null && (depositAmount === 2000000 || depositAmount === 3000000)) {
+    if (depositAmount !== null && (depositAmount === 2000000 || depositAmount === 3000000 || depositAmount === 4000000 || depositAmount == 5000000 || depositAmount == 6000000 || depositAmount == 7000000)) {
       var date = new Date(parseInt(row[0]));
       var monthYear = Utilities.formatDate(date, 'GMT', 'yyyy-MM');
       
